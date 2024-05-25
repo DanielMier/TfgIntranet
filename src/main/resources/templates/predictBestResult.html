@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Predicted Exercises</title>
+</head>
+<body>
+    <h1>Predicted Best Exercises</h1>
+    <ul>
+        <li th:each="tarea : ${predictedExercises}">
+            <span th:text="${tarea.nombre}"></span> - <span th:text="${tarea.dificultad}"></span>
+        </li>
+    </ul>
+</body>
+</html>

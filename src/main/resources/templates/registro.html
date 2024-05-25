@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>Registro de usuarios</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <style>
+        html {
+  height: 100%;
+}
+body {
+  margin:0;
+  padding:0;
+  font-family: sans-serif;
+  background: linear-gradient(#141e30, #243b55);
+}
+
+.login-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,.5);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+}
+
+.login-box h2 {
+  margin: 0 0 30px;
+  padding: 0;
+  color: #fff;
+  text-align: center;
+}
+
+.login-box .user-box {
+  position: relative;
+}
+
+.login-box .user-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+.login-box .user-box label {
+  position: absolute;
+  top:0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: #03e9f4;
+  font-size: 12px;
+}
+
+.login-box form a {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  color: #03e9f4;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px
+}
+
+.login-box a:hover {
+  background: #03e9f4;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #03e9f4,
+              0 0 25px #03e9f4,
+              0 0 50px #03e9f4,
+              0 0 100px #03e9f4;
+}
+
+.login-box a span {
+  position: absolute;
+  display: block;
+}
+
+.login-box a span:nth-child(1) {
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #03e9f4);
+  animation: btn-anim1 1s linear infinite;
+}
+
+@keyframes btn-anim1 {
+  0% {
+    left: -100%;
+  }
+  50%,100% {
+    left: 100%;
+  }
+}
+
+.login-box a span:nth-child(2) {
+  top: -100%;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, #03e9f4);
+  animation: btn-anim2 1s linear infinite;
+  animation-delay: .25s
+}
+
+@keyframes btn-anim2 {
+  0% {
+    top: -100%;
+  }
+  50%,100% {
+    top: 100%;
+  }
+}
+
+.login-box a span:nth-child(3) {
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(270deg, transparent, #03e9f4);
+  animation: btn-anim3 1s linear infinite;
+  animation-delay: .5s
+}
+
+@keyframes btn-anim3 {
+  0% {
+    right: -100%;
+  }
+  50%,100% {
+    right: 100%;
+  }
+}
+
+.login-box a span:nth-child(4) {
+  bottom: -100%;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(360deg, transparent, #03e9f4);
+  animation: btn-anim4 1s linear infinite;
+  animation-delay: .75s
+}
+
+@keyframes btn-anim4 {
+  0% {
+    bottom: -100%;
+  }
+  50%,100% {
+    bottom: 100%;
+  }
+}
+
+    </style>
+</head>
+
+<body>
+
+    <!--<nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
+                        class="icon-bar"></span> <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#" th:href="@{/}">Registro y inicio de sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div th:if="${param.exito}">
+                    <div class="alert alert-info">Se ha registrado exitosamente a la aplicación</div>
+                </div>
+
+                <h1>Regístrate</h1>
+                <form th:action="@{/registro}" method="post" th:object="${usuario}">
+                    <div class="form-group">
+                        <label class="control-label" for="nombre">Nombre:</label>
+                        <input id="nombre" type="text" class="form-control" th:field="*{nombre}" required autofocus>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="apellido">Apellido:</label>
+                        <input id="apellido" class="form-control" th:field="*{apellido}" required autofocus>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="email">Email:</label>
+                        <input id="email" type="email" class="form-control" th:field="*{email}" required autofocus>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rol">Rol:</label>
+                        <select id="rol" name="rol" class="form-control" required>
+                            <option value="supervisor">Supervisor</option>
+                            <option value="trabajador">Trabajador</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="password">Password:</label>
+                        <input type="password" id="password" class="form-control" th:field="*{password}" required autofocus>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">Registrar</button>
+                        <span>Si estás registrado <a th:href="@{/login}">inicia sesión aquí</a></span>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>-->
+
+    <div class="login-box">
+		<h2>Registro</h2>
+		<form th:action="@{/registro}" method="post" th:object="${usuario}">
+			<div th:if="${param.error}">
+				<div class="alert alert-danger">Usuario o contraseña inválidos</div>
+			</div>
+			<div class="user-box">
+				<input id="nombre" type="text" class="form-control" th:field="*{nombre}" required autofocus>
+				<label class="control-label" for="nombre">Nombre:</label>
+                        
+			</div>
+            <div class="user-box">
+				<input id="apellido" class="form-control" th:field="*{apellido}" required autofocus>
+				<label class="control-label" for="apellido">Apellido:</label>
+                        
+			</div>
+
+            <div class="user-box">
+				<input id="nombreUsuario" type="text" class="form-control" th:field="*{nombreUsuario}" required autofocus>
+				<label class="control-label" for="nombre">Nombre de usuario:</label>
+                        
+			</div>
+            <div class="user-box">
+				<input id="email" type="text" class="form-control" th:field="*{email}" required autofocus="autofocus">
+				<label for="email">Correo electrónico :</label>
+				
+			</div>
+            <div class="user-box">
+				<select id="rol" name="rol" class="form-control" required>
+                    <option value="entrenador">Entrenador</option>
+                    <option value="jugador">Jugador</option>
+                </select>
+				<label for="rol">Rol:</label>
+                        
+			</div>
+			<div class="user-box">
+				
+				<input id="password" type="password" name="password" class="form-control" required autofocus="autofocus">
+				
+				<label for="password">Password : </label>
+			</div>
+			<a href="#">
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+				<input type="submit" style="border: 0; background: none; color: #fff;" value="Iniciar sesión" />
+			</a>
+			<a th:href="@{/login}">
+				Iniciar sesion
+			</a>
+		</form>
+	</div>
+
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+
+</html>

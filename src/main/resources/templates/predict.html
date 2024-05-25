@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Predict Best Exercises</title>
+</head>
+
+<body>
+	<h2>Predict Best Exercises</h2>
+	<form action="#" th:action="@{/predict}" th:object="${predictionForm}" method="post">
+		<label for="contenidoFisico">Contenido Físico:</label>
+		<select type="text" id="contenidoFisico" th:field="*{contenidoFisico}" required>
+			<option value="Fuerza_Potencia">Fuerza/Potencia</option>
+			<option value="Resistencia">Resistencia</option>
+			<option value="Velocidad">Velocidad</option>
+			<option value="Integrado">Integrado</option>
+		</select><br>
+
+		<label for="contenidoTecnico">Contenido Técnico:</label>
+		<select type="text" id="contenidoTecnico" th:field="*{contenidoTecnico}" required>
+			<option value="Conduccion">Conduccion</option>
+			<option value="Acoso">Acoso</option>
+			<option value="Regate">Regate</option>
+			<option value="Cobretura">Cobretura</option>
+			<option value="Protección">Protección</option>
+			<option value="Rechaze">Rechaze</option>
+			<option value="Control">Control</option>
+			<option value="Pase">Pase</option>
+			<option value="Apoyo">Apoyo</option>
+			<option value="Marcage">Marcage</option>
+			<option value="Amplitud">Amplitud</option>
+			<option value="Profundidad">Profundidad</option>
+			<option value="Desmarque">Desmarque</option>
+			<option value="Tiro">Tiro</option>
+			<option value="Centro">Centro</option>
+			<option value="Remate">Remate</option>
+			<option value="sc">Sin contenido</option>
+		</select><br>
+
+		<label for="contenidoTactico">Contenido Táctico:</label>
+		<select type="text" id="contenidoTactico" th:field="*{contenidoTactico}" required>
+			<option value="Ataque">Ataque</option>
+			<option value="Defensa">Defensa</option>
+			<option value="Transicion Ofensiva">Transicion Ofensiva</option>
+			<option value="Transicion Defensiva">Transicion Defensiva</option>
+			<option value="sc">Sin contenido</option>
+		</select><br>
+
+		<label for="numJugadores">Número de Jugadores:</label>
+		<select type="number" id="numJugadores" th:field="*{numJugadores}" required>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+			<option value="23">23</option>
+			<option value="24">24</option>
+			<option value="25">25</option>
+			<option value="26">26</option>
+			<option value="27">27</option>
+			<option value="28">28</option>
+			<option value="29">29</option>
+			<option value="30">30</option>
+		</select>
+
+		<button type="submit">Predict</button>
+	</form>
+</body>
+
+</html>

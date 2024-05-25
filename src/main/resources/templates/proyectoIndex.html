@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Proyectos</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <style>
+        .table-actions a {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+	<nav class="navbar navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#" th:href="@{/}">Inicio de sesión</a>
+            <div class="row">
+                <div class="col-4">
+                    <ul class="navbar-nav">
+                        <li sec:authorize="isAuthenticated()" class="nav-item">
+                            <a class="nav-link" th:href="@{/logout}">Cerrar sesión</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <ul class="navbar-nav">
+                        <li sec:authorize="isAuthenticated()" class="nav-item">
+                            <a class="nav-link" th:href="@{/proyectos}">Ir a proyectos</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <ul class="navbar-nav">
+                        <li sec:authorize="isAuthenticated()" class="nav-item">
+                            <a class="nav-link" th:href="@{/tareas}">Ver Tareas</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+       </nav>
+       <br>
+		<h4 class="center">
+			Bienvenido <span sec:authentication="principal.username"></span> 
+			Rol: <span sec:authentication="principal.authorities"></span>
+		</h4>
+    <div class="container">
+        <h1>Listado de Proyectos</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="proyecto : ${proyectos}">
+                    <td th:text="${proyecto.idProyecto}"></td>
+                    <td th:text="${proyecto.nombreProyecto}"></td>
+                    <td th:text="${proyecto.descripcion}"></td>
+                    <td class="table-actions">
+                        <a href="#" class="btn btn-sm btn-primary" th:href="@{/proyectos/editar/{id}(id=${proyecto.idProyecto})}">Editar</a>
+                        <a href="#" class="btn btn-sm btn-danger" th:href="@{/proyectos/eliminar/{id}(id=${proyecto.idProyecto})}" onclick="return confirm('¿Estás seguro de eliminar este proyecto?')">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="/proyectos/crear" class="btn btn-success">Crear Nuevo Proyecto</a>
+    </div>
+</body>
+</html>

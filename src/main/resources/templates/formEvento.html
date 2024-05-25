@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Evento</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="/materialize/css/materialize.min.css" rel="stylesheet">
+    <style>
+        /* Estilos adicionales si los necesitas */
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Crear Nuevo Evento</h2>
+    <form method="post" th:object="${evento}" th:action="@{/cadastrarEvento}">
+        <div class="input-field">
+            <input type="text" th:field="*{nome}" id="nome" required>
+            <label for="nome">Nombre del Evento:</label>
+        </div>
+        <div class="input-field">
+            <input type="text" th:field="*{local}" id="local" required>
+            <label for="local">Localización:</label>
+        </div>
+        <div class="input-field">
+            <input type="date" th:field="*{data}" id="data" required>
+            <label for="data">Fecha:</label>
+        </div>
+        <div class="input-field">
+            <input type="text" th:field="*{horario}" id="horario" required>
+            <label for="horario">Horario:</label>
+        </div>
+        <button type="submit" class="btn waves-effect waves-light">
+            <i class="material-icons left">add_circle_outline</i> Crear Evento
+        </button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/materialize/js/materialize.min.js"></script>
+</body>
+</html>
+ 

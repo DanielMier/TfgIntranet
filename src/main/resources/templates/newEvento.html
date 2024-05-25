@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Añadir Evento</title>
+</head>
+<body>
+    <h1>Añadir Nuevo Evento</h1>
+    <form action="#" th:action="@{/eventos}" th:object="${evento}" method="post">
+        <label for="title">Título:</label>
+        <input type="text" id="title" th:field="*{title}" required><br>
+
+        <label for="description">Descripción:</label>
+        <textarea id="description" th:field="*{description}" required></textarea><br>
+
+        <label for="start">Inicio:</label>
+        <input type="datetime-local" id="start" th:field="*{start}" required><br>
+
+        <label for="finish">Fin:</label>
+        <input type="datetime-local" id="finish" th:field="*{finish}" required><br>
+
+        <button type="submit">Añadir Evento</button>
+    </form>
+</body>
+</html>

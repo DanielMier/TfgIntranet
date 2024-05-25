@@ -1,0 +1,45 @@
+{"properties": [
+  {
+    "name": "openai.api.url",
+    "type": "java.lang.String",
+    "description": "A description for 'openai.api.url'"
+  },
+  {
+    "name": "openai.model",
+    "type": "java.lang.String",
+    "description": "A description for 'openai.model'"
+  },
+  {
+    "name": "openai.api.key",
+    "type": "java.lang.String",
+    "description": "A description for 'openai.api.key'"
+  },
+  {
+    "id": "chatcmpl-123",
+    "object": "chat.completion",
+    "created": 1677652288,
+    "choices": [{
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "\n\nHello there, how may I assist you today?"
+      },
+      "finish_reason": "stop"
+    }],
+    "usage": {
+      "prompt_tokens": 9,
+      "completion_tokens": 12,
+      "total_tokens": 21
+    }
+  },
+  {
+    "name": "spring.servelet.multipart.max-file-size",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.servelet.multipart.max-file-size'"
+  },
+  {
+    "name": "upload.path",
+    "type": "java.lang.String",
+    "description": "A description for 'upload.path'"
+  }
+]}
