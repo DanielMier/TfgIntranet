@@ -1,10 +1,9 @@
 package com.registro.modelo;
 
 import javax.persistence.*;
-
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -17,8 +16,8 @@ public class Sesion {
 
     private String nombre;
     
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate fecha;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime fecha;
 
     private int numJugadores;
 
@@ -32,13 +31,11 @@ public class Sesion {
     )
     private List<Tareas> tareas;
     
-    // Relación Many-to-One con la entidad Usuario
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
     // Getters y Setters
-
     public Long getId() {
         return id;
     }
@@ -55,11 +52,11 @@ public class Sesion {
         this.nombre = nombre;
     }
 
-    public LocalDate getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
 
@@ -83,10 +80,10 @@ public class Sesion {
         return usuario;
     }
 
-    public void setUsuarioId(Usuario usuario) {
+    public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-    
+
     public List<Tareas> getTareas() {
         return tareas;
     }
@@ -95,4 +92,3 @@ public class Sesion {
         this.tareas = tareas;
     }
 }
-

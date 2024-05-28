@@ -19,7 +19,7 @@ body {
   margin:0;
   padding:0;
   font-family: sans-serif;
-  background: linear-gradient(#141e30, #243b55);
+   background: linear-gradient(#00D8F3, #6CFBCE);
 }
 
 .login-box {
@@ -29,7 +29,7 @@ body {
   width: 400px;
   padding: 40px;
   transform: translate(-50%, -50%);
-  background: rgba(0,0,0,.5);
+  background: rgba(0,0,5,.5);
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0,0,0,.6);
   border-radius: 10px;
@@ -185,66 +185,6 @@ body {
 
 <body>
 
-    <!--<nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                    aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
-                        class="icon-bar"></span> <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#" th:href="@{/}">Registro y inicio de sesión</a>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div th:if="${param.exito}">
-                    <div class="alert alert-info">Se ha registrado exitosamente a la aplicación</div>
-                </div>
-
-                <h1>Regístrate</h1>
-                <form th:action="@{/registro}" method="post" th:object="${usuario}">
-                    <div class="form-group">
-                        <label class="control-label" for="nombre">Nombre:</label>
-                        <input id="nombre" type="text" class="form-control" th:field="*{nombre}" required autofocus>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label" for="apellido">Apellido:</label>
-                        <input id="apellido" class="form-control" th:field="*{apellido}" required autofocus>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label" for="email">Email:</label>
-                        <input id="email" type="email" class="form-control" th:field="*{email}" required autofocus>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="rol">Rol:</label>
-                        <select id="rol" name="rol" class="form-control" required>
-                            <option value="supervisor">Supervisor</option>
-                            <option value="trabajador">Trabajador</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label" for="password">Password:</label>
-                        <input type="password" id="password" class="form-control" th:field="*{password}" required autofocus>
-                    </div>
-
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success">Registrar</button>
-                        <span>Si estás registrado <a th:href="@{/login}">inicia sesión aquí</a></span>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div>-->
-
     <div class="login-box">
 		<h2>Registro</h2>
 		<form th:action="@{/registro}" method="post" th:object="${usuario}">
@@ -272,10 +212,9 @@ body {
 				<label for="email">Correo electrónico :</label>
 				
 			</div>
-            <div class="user-box">
+            <div class="user-box" style="display: none;">
 				<select id="rol" name="rol" class="form-control" required>
                     <option value="entrenador">Entrenador</option>
-                    <option value="jugador">Jugador</option>
                 </select>
 				<label for="rol">Rol:</label>
                         

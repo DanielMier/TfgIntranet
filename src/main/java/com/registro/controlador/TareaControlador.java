@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.registro.modelo.Tareas;
 import com.registro.modelo.Usuario;
+import com.registro.repositorio.TareasRepositorio;
 import com.registro.servicio.TareasServicio;
 import com.registro.servicio.UsuarioServicio;
 
@@ -32,6 +34,8 @@ public class TareaControlador {
 
     @Autowired
     private TareasServicio tareasServicio;
+    @Autowired
+    private TareasRepositorio tareasRepositorio;
 
     @Autowired
     private UsuarioServicio usuarioServicio;
@@ -61,43 +65,36 @@ public class TareaControlador {
     public String guardarTarea(
         @Valid @ModelAttribute("tarea") Tareas tarea,
         BindingResult bindingResult,
-      //  @RequestParam("videoImagen") MultipartFile videoImagen,
+        @RequestParam("file") MultipartFile file,
         Principal principal,
         RedirectAttributes redirectAttributes
     ) {
-      /*  if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "formularioTarea"; // Nombre correcto de tu vista de formulario
-        }*/
-        System.out.print("guardarTarea");
+        }
+        
         // Obtener el nombre de usuario del contexto de seguridad
         String nombreUsuario = principal.getName();
-
         // Obtener el objeto Usuario completo por nombre de usuario
         Usuario usuario = usuarioServicio.obtenerUsuarioPorNombre(nombreUsuario);
-
         // Asignar el usuario a la tarea
         tarea.setUsuarioId(usuario);
-       // System.out.println(videoImagen);
-     /*   // Guardar el archivo en el servidor
-        if (!videoImagen.isEmpty()) {
-            try {
-                byte[] bytes = videoImagen.getBytes();
-                System.out.println(videoImagen);
 
+        // Guardar el archivo en el servidor
+        if (!file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
                 // Define el directorio donde se guardarán los archivos
                 String directorio = uploadPath;
-
                 // Asegúrate de que el directorio existe
                 File directorioDestino = new File(directorio);
                 if (!directorioDestino.exists()) {
                     directorioDestino.mkdirs();
                 }
-
                 // Guardar el archivo con un nombre único
-                String nombreArchivo = UUID.randomUUID().toString() + "_" + videoImagen.getOriginalFilename();
+                String nombreArchivo = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
                 Path rutaArchivo = Paths.get(directorio, nombreArchivo);
-                Files.copy(videoImagen.getInputStream(), rutaArchivo, StandardCopyOption.REPLACE_EXISTING);
-
+                Files.copy(file.getInputStream(), rutaArchivo, StandardCopyOption.REPLACE_EXISTING);
                 // Establecer el nombre del archivo en la entidad Tareas
                 tarea.setVideoImagen(nombreArchivo);
             } catch (IOException e) {
@@ -106,21 +103,28 @@ public class TareaControlador {
                 redirectAttributes.addFlashAttribute("error", "Error al subir el archivo: " + e.getMessage());
                 return "redirect:/tareas/nueva";
             }
-        }*/
-
+        }
         // Guardar la tarea en la base de datos
         Tareas tareaGuardada = tareasServicio.guardarTarea(tarea);
-
         // Redirigir a la vista de detalle de la tarea guardada
         redirectAttributes.addAttribute("codigo", tareaGuardada.getCodigo());
         return "redirect:/tareas/{codigo}";
     }
 
-    @GetMapping
+
+    @GetMapping("/usuarios")
     public String mostrarTareasUsuario(Model model, Principal principal) {
         String nombreUsuario = principal.getName(); // Obtenemos el nombre de usuario del contexto de seguridad
         List<Tareas> tareasUsuario = tareasServicio.listarTareasPorUsuario(nombreUsuario);
         model.addAttribute("tareas", tareasUsuario);
+        return "listaTareasUsuario"; // Vista para mostrar la lista de tareas del usuario
+    }
+    
+    @GetMapping
+    public String mostrarTareas(Model model, Principal principal) {
+        List<Tareas> tareasUsuario = tareasServicio.listarTareas();
+        model.addAttribute("tareas", tareasUsuario);
         return "listaTareas"; // Vista para mostrar la lista de tareas del usuario
     }
+   
 }

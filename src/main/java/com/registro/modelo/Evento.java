@@ -5,10 +5,14 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "event")
@@ -27,7 +31,12 @@ public class Evento implements Serializable {
 	private LocalDateTime start;
 	@Column(name = "finish")
 	private LocalDateTime finish;
-
+	
+	 // Relación Many-to-One con la entidad Usuario
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+    
 	public Evento() {
         super();
     }
@@ -71,6 +80,14 @@ public class Evento implements Serializable {
 	public void setFinish(LocalDateTime finish) {
 		this.finish = finish;
 	}
+	
+	 public Usuario getUsuario() {
+	        return usuario;
+	    }
+
+	    public void setUsuario(Usuario usuario) {
+	        this.usuario = usuario;
+	    }
 
 	@Override
 	public String toString() {

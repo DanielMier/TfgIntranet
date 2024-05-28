@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer</title>
+</head>
+<body>
+    <footer th:fragment="footer" style="  
+    		margin-top: 5%;
+            width: 100%;
+            background-color: #3B9F9B;
+            color: white;">
+        <div style="padding: 1rem; text-align: center">
+            <div class="row" style="align-items: center">
+				<div class="col-md-2">
+					<img th:src="@{../../img/app/Logo-PasePreciso-removebg-preview.png}" alt="PasePreciso Logo" style="width: 60%; height: auto;">
+				</div>
+                <div class="col-md-2">
+                    <h4>PasePreciso</h4>
+                    <p>La app para el entrenador.</p>
+                    
+                </div>
+                <div class="col-md-5">
+                	<a style="text-decoration: none; color: #ffffff;" href="#">Todos los derechos reservados | Daniel Mier Canorea | 2024</a>
+                </div>
+                <div class="col-md-3">
+                	<a style="text-decoration: none; color: #ffffff;" href="#">Política de privacidad</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -85,6 +85,10 @@ public class MachineLearningServicio {
     }
 
     public List<Tareas> predictBestExercises(String contenidoFisico, String contenidoTecnico, String contenidoTactico, String numJugadores) throws Exception {
+        if (data == null) {
+            throw new IllegalStateException("El modelo no está entrenado. Llama a trainModel() antes de predecir.");
+        }
+
         Instances testData = new Instances(data, 0);
 
         double[] values = new double[data.numAttributes()];

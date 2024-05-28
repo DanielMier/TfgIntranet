@@ -22,7 +22,7 @@ public interface TareasRepositorio extends JpaRepository<Tareas, Long> {
 	Tareas findByCodigo(String codigo);
 
 	List<Tareas> findByUsuario(Usuario usuario);
-
+	
 	// ML search
 	@Query("SELECT t FROM Tareas t WHERE t.contenidoTecnico = :contenidoTecnico AND t.contenidoTactico = :contenidoTactico AND t.contenidoFisico = :contenidoFisico ORDER BY t.dificultad ASC, t.duracion DESC")
 	List<Tareas> findTop5(

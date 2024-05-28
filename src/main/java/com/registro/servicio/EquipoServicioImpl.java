@@ -1,6 +1,7 @@
 package com.registro.servicio;
 
 import com.registro.modelo.Equipo;
+import com.registro.modelo.Usuario;
 import com.registro.repositorio.EquipoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,10 @@ public class EquipoServicioImpl implements EquipoServicio {
     public List<Equipo> buscarPorIdUsuario(Long idUsuario) {
         return equipoRepository.findByEntrenadorId(idUsuario);
     }
-
+    @Override
+    public List<Equipo> listarPorUsuario(Usuario usuario) {
+        return equipoRepository.findByEntrenador(usuario);
+    }
     @Override
     public Equipo buscarPorIdYIdUsuario(Long idEquipo, Long idUsuario) {
         return equipoRepository.findByIdAndEntrenadorId(idEquipo, idUsuario);

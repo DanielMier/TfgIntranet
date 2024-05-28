@@ -1,5 +1,6 @@
 package com.registro.servicio;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,13 +42,24 @@ public class TareasServicioImpl implements TareasServicio {
 		// Supongamos que obtienes el usuario de alguna manera (por ejemplo, un servicio
 		// de usuarios)
 		Usuario usuario = usuarioServicio.obtenerUsuarioPorNombre(nombreUsuario);
-
+		
 		if (usuario != null) {
-			return tareasRepositorio.findByUsuario(usuario);
-		} else {
-			// Manejar el caso cuando no se encuentra el usuario
-			return Collections.emptyList(); // o null, dependiendo de tu lógica
-		}
+	        List<Tareas> tareasPorNombre = tareasRepositorio.findByUsuario(usuario);
+	        
+	        // Obtener las tareas del usuario con id 1
+	        Usuario usuarioId1 = usuarioServicio.obtenerUsuarioPorId(1L); // Obtener el usuario con id 1
+	        List<Tareas> tareasUsuarioId1 = tareasRepositorio.findByUsuario(usuarioId1);
+	        
+	        // Combinar ambas listas de tareas
+	        List<Tareas> todasLasTareas = new ArrayList<>();
+	        todasLasTareas.addAll(tareasPorNombre);
+	        todasLasTareas.addAll(tareasUsuarioId1);
+	        
+	        return todasLasTareas;
+	    } else {
+	        // Manejar el caso cuando no se encuentra el usuario
+	        return Collections.emptyList(); // o null, dependiendo de tu lógica
+	    }
 	}
 
 	@Override

@@ -8,6 +8,9 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<script src="https://kit.fontawesome.com/953f80cad3.js" crossorigin="anonymous"></script>
+	<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/min/moment.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
 	<style>
 		html {
 			height: 100%;
@@ -24,7 +27,6 @@
 		}
 
 		.main {
-			margin-top: 4rem;
 		}
 
 		.button-card {
@@ -63,61 +65,10 @@
 	</style>
 </head>
 
-<body>
+<body style="color: #2D6765;">
 
-	<header>
-		<nav class="navbar bg-body-tertiary fixed-top">
-			<div class="container-fluid">
-				<button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
-					data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"
-					aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<ul class="navbar-nav">
-					<li sec:authorize="isAuthenticated()" class="nav-item">
-						<a class="nav-link" th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket"></i></a>
-					</li>
-				</ul>
-
-				<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasDarkNavbar"
-					aria-labelledby="offcanvasDarkNavbarLabel">
-					<div class="offcanvas-header">
-						<h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Dark offcanvas</h5>
-						<button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-							aria-label="Close"></button>
-					</div>
-					<div class="offcanvas-body">
-						<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-							<li class="nav-item">
-								<a class="nav-link active" aria-current="page" href="#">Home</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="#">Link</a>
-							</li>
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-									aria-expanded="false">
-									Dropdown
-								</a>
-								<ul class="dropdown-menu dropdown-menu-dark">
-									<li><a class="dropdown-item" href="#">Action</a></li>
-									<li><a class="dropdown-item" href="#">Another action</a></li>
-									<li>
-										<hr class="dropdown-divider">
-									</li>
-									<li><a class="dropdown-item" href="#">Something else here</a></li>
-								</ul>
-							</li>
-						</ul>
-						<form class="d-flex mt-3" role="search">
-							<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-							<button class="btn btn-success" type="submit">Search</button>
-						</form>
-					</div>
-				</div>
-			</div>
-		</nav>
-	</header>
+	<!-- Header -->
+	<div th:insert="~{header :: header}"></div>
 
 	<section class="main">
 		<div class="container">
@@ -131,15 +82,15 @@
 					</a>
 				</div>
 				<div class="col-md-4">
-					<a  th:href="@{/predict}">
+					<a th:href="@{/sesion/sesionRapida}">
 						<div class="button-card">
 							<i class="fa-solid fa-forward-fast"></i>
-							<p class="item mb-0">Diseñar sesión con IA</p>
+							<p class="item mb-0">Diseñar sesión Rapida</p>
 						</div>
 					</a>
 				</div>
 				<div class="col-md-4">
-					<a href="#">
+					<a th:href="@{/tareas}">
 						<div class="button-card">
 							<i class="fa-solid fa-magnifying-glass"></i>
 							<p class="item mb-0">Buscar tarea de otros entrenadores</p>
@@ -166,50 +117,69 @@
 		</div>
 	</section>
 
-	<!-- Selección de Equipos -->
-	<h1>Selecciona un Equipo</h1>
-    <form action="#" method="get">
-        <select name="equipoSeleccionado">
-            <!-- Itera sobre la lista de equipos -->
-            <option th:each="equipo : ${equipos}" th:value="${equipo.nombreEquipo}">
-                <!-- Muestra el nombre y la categoría de cada equipo -->
-                <span th:text="${equipo.nombreEquipo + ' - ' + equipo.categoria}"></span>
-            </option>
-        </select>
-        <input type="submit" value="Ver Jugadores">
-    </form>
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 text-center d-flex flex-column align-items-center justify-content-center">
+					<h1>Equipos</h1>
+					<div class="row justify-content-center w-100">
+						<div th:each="equipo : ${equipos}" class="d-flex justify-content-center button-card"
+							style="width: 80%;">
+							<a th:href="@{/equipo/{id}(id=${equipo.id})}" class="w-100">
+								<div class="col-md-12 d-flex justify-content-center align-items-center">
+									<p class="text-center w-100" th:text="${equipo.nombreEquipo}" style="margin: 0;">
+									</p>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
 
-    <!-- Mostrar el equipo seleccionado -->
-    <h2>Información del Equipo Seleccionado</h2>
-    <div th:if="${param.equipoSeleccionado}">
-        <!-- Encuentra el equipo seleccionado en la lista de equipos -->
-        <div th:with="equipoSeleccionado=${equipos.stream().filter(e -> e.getNombreEquipo().equals(param.equipoSeleccionado)).findFirst().orElse(null)}">
-            <p th:text="${'Nombre: ' + equipoSeleccionado.nombreEquipo}"></p>
-            <p th:text="${'Categoría: ' + equipoSeleccionado.categoria}"></p>
-            <!-- Agrega más información del equipo si es necesario -->
-        </div>
-    </div>
 
-	<!-- Tabla de Jugadores 
-        <div class="row mt-5" th:if="${not #lists.isEmpty(jugadores)}">
-            <div class="col-md-12">
-                <h2 th:text="${equipoSeleccionado.nombre}"></h2>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Dorsal</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="jugador : ${jugadores}">
-                            <td th:text="${jugador.nombre}">Nombre</td>
-                            <td th:text="${jugador.dorsal}">Dorsal</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>-->
+
+
+				<div class="col-md-6">
+					<!-- Calendario -->
+					<div id='calendar' style="margin-top: 6%;"></div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<!-- Footer -->
+	<div th:insert="~{footer :: footer}"></div>
+	
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			var calendarEl = document.getElementById('calendar');
+			var calendar = new FullCalendar.Calendar(calendarEl, {
+				locale: 'es', // Configura el idioma en español
+				initialView: 'timeGridWeek', // Vista de semana
+				headerToolbar: {
+					left: 'prev', // Botón para ir a la semana anterior
+					center: 'title', // Título del calendario
+					right: 'next' // Botón para ir a la semana siguiente
+				},
+				allDaySlot: false, // Oculta el campo de todo el día
+				slotLabelFormat: {
+					hour: 'numeric', // Formato de las horas
+					minute: '2-digit', // Formato de los minutos
+					omitZeroMinute: false, // No omitir los minutos cuando sean cero
+					hour12: false // Formato de 24 horas
+				},
+				slotDuration: '00:30:00', // Duración de cada intervalo de hora
+				events: {
+					url: '/eventos/userEvents', // Cambiar la URL aquí
+					failure: function () {
+						alert('Hubo un error al recuperar los eventos!');
+					}
+				}
+			});
+			calendar.render();
+		});
+	</script>
+
+
 
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

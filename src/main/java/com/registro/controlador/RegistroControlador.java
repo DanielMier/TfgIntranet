@@ -73,10 +73,10 @@ public class RegistroControlador {
     	String nombreUsuario = principal.getUsername();
         System.out.println(nombreUsuario);
         // Obtener el objeto Usuario completo por nombre de usuario
-        Long entrenador = servicio.obtenerIdPorEmail(nombreUsuario);
+        Usuario entrenador = servicio.obtenerUsuarioPorNombre(nombreUsuario);
         System.out.println(entrenador);
         
-        List<Equipo> equipos = equipoServicio.buscarPorIdUsuario(entrenador);
+        List<Equipo> equipos = equipoServicio.listarPorUsuario(entrenador);
         for (Equipo equipo : equipos){
         	System.out.println(equipo.getNombreEquipo() +" "+ equipo.getCategoria());
         }

@@ -65,24 +65,38 @@ public class JugadorControlador {
     }
 
     @PostMapping("/{equipoId}")
-    public String guardarJugador(@PathVariable Long equipoId, @ModelAttribute Jugador jugador, @AuthenticationPrincipal UserDetails principal) {
+    public String guardarJugador(
+        @PathVariable Long equipoId,
+        @ModelAttribute Jugador jugador,
+        @AuthenticationPrincipal UserDetails principal,
+        @RequestParam("action") String action, 
+        Model model
+    ) {
         // Obtener el equipo por el ID
         Equipo equipo = equipoService.obtenerEquipoPorId(equipoId);
-        
+
         // Obtener el nombre de usuario del contexto de seguridad
         String nombreUsuario = principal.getUsername();
-        
+
         // Obtener el objeto Usuario completo por nombre de usuario
         Usuario usuario = usuarioService.obtenerUsuarioPorNombre(nombreUsuario);
-        
+
         // Asignar el equipo y el usuario al jugador
         jugador.setEquipo(equipo);
         jugador.setUsuario(usuario);
-        
+
         // Guardar el jugador
         jugadorService.guardarJugador(jugador);
-        
-        return "redirect:/";
+
+        if ("add".equals(action)) {
+            // Si la acción es seguir añadiendo, redirigir de nuevo al formulario de añadir jugador
+            model.addAttribute("equipo", equipo);
+            model.addAttribute("jugador", new Jugador());
+            return "redirect:/jugadores/nuevo?id="+equipo.getId(); // Asegúrate de que este sea el nombre correcto de tu vista
+        } else {
+            // Si la acción es guardar, redirigir a la página principal u otra vista
+            return "redirect:/";
+        }
     }
 
     @GetMapping("/nuevo")

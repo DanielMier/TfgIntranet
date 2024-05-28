@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Detalle de Sesión</title>
-    <link rel="stylesheet" href="https://stakpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/953f80cad3.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
         .card {
             width: 100%;
-            height: 80%;
+            height: 100%;
         }
 
         .card img {
@@ -32,24 +39,42 @@
             display: flex;
             justify-content: space-between;
         }
+
+        .pagination {
+            justify-content: center;
+        }
     </style>
 </head>
+
 <body>
-<div class="container mt-5">
-	<!-- Header -->
-	 <div th:insert="~{header :: header}"></div>
-	 <!--Detalle -->
-    <h1 th:text="${sesion.nombre}">Detalle de Sesión</h1>
-    <span th:text="${sesion.fecha}"></span>
-	<div>
-		<p>Entreno para <span th:text="${sesion.numJugadores}"></span> jugadores <i class="fa-solid fa-people-group"></i></p>
-	</div>
-	 <!-- Ejercicios -->
+    <!-- Header -->
+    <div th:insert="~{header :: header}"></div>
+    <div class="container mt-5">
+        <!-- Detalle -->
+        <h1 th:text="${sesion.nombre}">Detalle de Sesión</h1>
+        <span th:text="${sesion.fecha}"></span>
+        <div>
+            <p>Entreno para <span th:text="${sesion.numJugadores}"></span> jugadores <i class="fa-solid fa-people-group"></i></p>
+        </div>
+        <!-- Ejercicios -->
         <h4>Ejercicios:</h4>
-        <div class="row">
-            <div class="col-md-3" th:each="tarea : ${tareas}">
+        <div class="form-group">
+            <input type="text" id="searchInput" class="form-control" placeholder="Buscar tareas...">
+        </div>
+        <div class="row" id="tareasContainer">
+            <div class="col-md-3" style="padding: 1rem;" th:each="tarea : ${tareas}">
                 <div class="card mb-4">
-                    <img src="/src/main/resources/templates/img/ControlesEsp.png" class="card-img-top" alt="...">
+                    <div class="card-img-top">
+                        <!-- Video o Imagen -->
+                        <span style="display: none;" th:text="${tarea.videoImagen}" class="nombre"></span>
+
+                        <video style="width: 100%; display: none" class="embed-responsive-item video" controls>
+                            <source th:src="@{/../img/__${tarea.videoImagen}__}" type="video/mp4">
+                            Tu navegador no soporta la etiqueta de video.
+                        </video>
+
+                        <div class="embed-responsive mb-3 media-container"></div>
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title" th:text="${tarea.codigo}"></h5>
                         <p class="card-text" th:text="${tarea.descripcion}">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -58,6 +83,96 @@
                 </div>
             </div>
         </div>
+        <!-- Controles de paginación -->
+        <nav aria-label="Page navigation">
+            <!-- Enlace para crear una nueva tarea -->
+            
+            <ul class="pagination" id="paginationControls"></ul>
+        </nav>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const itemsPerPage = 8; // 2 filas de 3 columnas cada una
+            let tasks = Array.from(document.querySelectorAll('#tareasContainer .col-md-3'));
+            let searchInput = document.getElementById('searchInput');
+            let paginationControls = document.getElementById('paginationControls');
+
+            function filterTasks() {
+                let filter = searchInput.value.toLowerCase();
+                tasks.forEach(task => {
+                    let title = task.querySelector('.card-title').innerText.toLowerCase();
+                    let description = task.querySelector('.card-text').innerText.toLowerCase();
+                    task.style.display = (title.includes(filter) || description.includes(filter)) ? '' : 'none';
+                });
+                updatePagination();
+            }
+
+            function updatePagination() {
+                let visibleTasks = tasks.filter(task => task.style.display !== 'none');
+                let totalPages = Math.ceil(visibleTasks.length / itemsPerPage);
+
+                paginationControls.innerHTML = '';
+                for (let i = 1; i <= totalPages; i++) {
+                    let li = document.createElement('li');
+                    li.className = 'page-item';
+                    let a = document.createElement('a');
+                    a.className = 'page-link';
+                    a.href = '#';
+                    a.innerText = i;
+                    a.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        showPage(i, visibleTasks);
+                    });
+                    li.appendChild(a);
+                    paginationControls.appendChild(li);
+                }
+
+                showPage(1, visibleTasks);
+            }
+
+            function showPage(page, visibleTasks) {
+                let start = (page - 1) * itemsPerPage;
+                let end = start + itemsPerPage;
+
+                visibleTasks.forEach((task, index) => {
+                    task.style.display = (index >= start && index < end) ? '' : 'none';
+                    if (index >= start && index < end) {
+                        loadMedia(task);
+                    }
+                });
+
+                Array.from(paginationControls.children).forEach((li, index) => {
+                    li.classList.toggle('active', index === page - 1);
+                });
+            }
+
+            searchInput.addEventListener('input', filterTasks);
+            updatePagination();
+        });
+
+        function loadMedia(task) {
+            const basePath = '/../img/';
+            const nom = task.querySelector('.nombre').innerText;
+            const imageUrl = basePath + nom; // Ruta de la imagen sin la extensión
+
+            // Referencia al contenedor de medios
+            const mediaContainer = task.querySelector('.media-container');
+            const video = task.querySelector('.video');
+
+            if (imageUrl.endsWith('.mp4')) {
+                video.style.display = 'block';
+                video.querySelector('source').src = imageUrl;
+            } else {
+                mediaContainer.innerHTML = `
+                <img style="width: 100%" src="${imageUrl}" class="img-fluid" alt="${imageUrl}">
+            `;
+            }
+        }
+    </script>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 </html>
