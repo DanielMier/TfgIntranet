@@ -4,43 +4,62 @@
 <head>
     <meta charset="UTF-8">
     <title>Formulario de Sesión con Predicción</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script
-     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-      <style>
-		a {
-			text-decoration: none;
-			color: inherit;
-		}
-	</style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/953f80cad3.js" crossorigin="anonymous"></script>
+    
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        footer {
+            background-color: #f8f9fa;
+            	
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
     <div th:insert="~{header :: header}"></div>
     <!-- Form -->
-    <div class="container" style="margin-top: 12%; margin-bottom: 9%;">
+    <div class="container content" style="margin-top: 12%; margin-bottom: 9%;">
         <h2 class="my-4">Nueva sesión rápida</h2>
         <form th:object="${sesion}" th:action="@{/sesion/predecirYGuardar}" method="post">
             <div class="row mb-3">
-                <div class="col-md-3">
+                <div class="col-md-6 col-lg-3">
                     <label for="nombre" class="form-label">Nombre:</label>
                     <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" th:field="*{nombre}" required>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6 col-lg-3">
                     <label for="fecha" class="form-label">Fecha de la Sesión:</label>
                     <input type="datetime-local" class="form-control" id="fecha" name="fecha" th:field="*{fecha}" required>
                 </div>
             </div>
             <h3 class="my-4">¿Qué quieres entrenar?</h3>
             <div class="row mb-3" th:object="${predictionForm}">
-                <div class="col-md-3">
+                <div class="col-md-6 col-lg-3">
                     <label for="numJugadores" class="form-label">Número de Jugadores:</label>
                     <select id="numJugadores" th:field="*{numJugadores}" class="form-select" name="numJugadores" required>
                         <!-- Opciones de jugadores -->
                         <option th:each="i : ${#numbers.sequence(5, 30)}" th:value="${i}" th:text="${i}"></option>
                     </select>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6 col-lg-3">
                     <label for="contenidoFisico" class="form-label">Contenido Físico:</label>
                     <select id="contenidoFisico" th:field="*{contenidoFisico}" class="form-select" required>
                         <option value="Fuerza_Potencia">Fuerza y Potencia</option>
@@ -49,7 +68,7 @@
                         <option value="Integrado">Integrado</option>
                     </select>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6 col-lg-3">
                     <label for="contenidoTecnico" class="form-label">Contenido Técnico:</label>
                     <select id="contenidoTecnico" th:field="*{contenidoTecnico}" class="form-select" required>
                         <option value="Conduccion">Conducción</option>
@@ -71,7 +90,7 @@
                         <option value="sc">Sin contenido</option>
                     </select>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6 col-lg-3">
                     <label for="contenidoTactico" class="form-label">Contenido Táctico:</label>
                     <select id="contenidoTactico" th:field="*{contenidoTactico}" class="form-select" required>
                         <option value="Ataque">Ataque</option>
@@ -83,7 +102,7 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-sm-10">
+                <div class="col-12">
                     <button type="submit" class="btn btn-primary">Guardar Sesión</button>
                 </div>
             </div>
@@ -92,12 +111,10 @@
             </div>
         </form>
     </div>
-    <div class="w-100 position-absolute bottom-0">
-        <!-- Footer -->
+    <!-- Footer -->
+    <footer>
         <div th:insert="~{footer :: footer}"></div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    </footer>
 </body>
 
 </html>
