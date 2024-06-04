@@ -55,4 +55,9 @@ public class SesionServicioImpl implements SesionServicio {
         // Suponiendo que tienes un repositorio o servicio para Tareas para obtener las entidades Tareas por sus IDs
         return tareasRepoistorio.findAllById(tareaIds);
     }
+    
+    @Override
+    public void eliminarSesion(Long id) {
+        sesionRepositorio.deleteById(id);
+    }
 }

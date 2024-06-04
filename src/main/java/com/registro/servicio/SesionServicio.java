@@ -16,4 +16,6 @@ public interface SesionServicio {
     List<Sesion> listarSesionesPorUsuario(Long usuarioId);
     
     List<Tareas> obtenerTareasPorSesionId(Long sesionId);
+
+	void eliminarSesion(Long id);
 }

@@ -78,9 +78,12 @@ public class SesionControlador {
     }
 
     @GetMapping("/lista")
-    public String listarSesiones(Model model) {
-        model.addAttribute("sesiones", sesionServicio.listarSesiones());
-        return "lista-sesiones";
+    public String listarSesiones(Model model, Principal principal) {
+    	String usuario = principal.getName();
+    	Usuario usr = usuarioServicio.obtenerUsuarioPorNombre(usuario);
+    	System.out.println(usr.getId());
+        model.addAttribute("sesiones", sesionServicio.listarSesionesPorUsuario(usr.getId()));
+        return "listaSesiones";
     }
 
     @GetMapping("/{id}")
@@ -146,4 +149,16 @@ public class SesionControlador {
             return "newSesionWithPrediction";
         }
     }
+    
+    @PostMapping("/eliminar/{id}")
+    public String eliminarSesion(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            sesionServicio.eliminarSesion(id);
+            redirectAttributes.addFlashAttribute("mensaje", "Sesión eliminada exitosamente.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Ocurrió un error al eliminar la sesión.");
+        }
+        return "redirect:/sesion/lista";
+    }
+    
 }

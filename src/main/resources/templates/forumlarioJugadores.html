@@ -3,43 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <title>Añadir Jugador</title>
-    
+    <style>
+		a {
+			text-decoration: none;
+			color: inherit;
+		}
+	</style>
+	
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-	<!-- Header -->
+    <!-- Header -->
     <div th:insert="~{header :: header}"></div>
     
     <div class="container mt-5">
-        <h2 style="margin-top: 12%;" class="mb-4">Añadir Jugador</h2>
+        <h2 class="mb-4">Añadir Jugador</h2>
         <form th:action="@{/jugadores/{equipoId}(equipoId=${equipo.id})}" th:object="${jugador}" method="post">
-            <div class="form-group">
-                <label for="nombre">Nombre</label>
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
                 <input type="text" class="form-control" id="nombre" th:field="*{nombre}" placeholder="Nombre del Jugador" required>
             </div>
-            <div class="form-group">
-                <label for="dorsal">Dorsal</label>
+            <div class="mb-3">
+                <label for="dorsal" class="form-label">Dorsal</label>
                 <input type="number" class="form-control" id="dorsal" th:field="*{dorsal}" placeholder="Número del Dorsal" required>
             </div>
-            <div class="form-group">
-                <label for="edad">Edad</label>
+            <div class="mb-3">
+                <label for="edad" class="form-label">Edad</label>
                 <input type="number" class="form-control" id="edad" th:field="*{edad}" placeholder="Edad del Jugador" required>
             </div>
             <!-- Se añade un campo oculto para enviar el equipoId -->
             <input type="hidden" th:field="*{equipo.id}">
             <!-- Campo oculto para identificar qué botón fue presionado -->
             <input type="hidden" name="action" id="action">
-            <button type="submit" class="btn btn-secondary" onclick="document.getElementById('action').value='add'">Seguir Añadiendo</button>
-            <button type="submit" class="btn btn-primary" onclick="document.getElementById('action').value='save'">Guardar</button>
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-secondary" onclick="document.getElementById('action').value='add'">Seguir Añadiendo</button>
+                <button type="submit" class="btn btn-primary" onclick="document.getElementById('action').value='save'">Guardar</button>
+            </div>
         </form>
     </div>
-     <!-- Footer -->
-      <div class="w-100 position-absolute bottom-0">
+    <!-- Footer -->
+    <div class="w-100 mt-5">
         <div th:insert="~{footer :: footer}"></div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

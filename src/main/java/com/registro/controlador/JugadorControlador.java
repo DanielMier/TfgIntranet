@@ -123,9 +123,13 @@ public class JugadorControlador {
         return "forumlarioJugadores"; // Esto asume que tienes una vista llamada formularioJugadores
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarJugador(@PathVariable Long id) {
+    @PostMapping("/delete/{id}")
+    public String eliminarJugador(@PathVariable Long id) {
+        Jugador jugador = jugadorService.obtenerJugadorPorId(id);
+        Long equipoId = jugador.getEquipo().getId(); // Obtener el ID del equipo al que pertenece el jugador
         jugadorService.eliminarJugador(id);
-        return ResponseEntity.noContent().build();
+        return "redirect:/equipo/" + equipoId; // Redireccionar a la página del equipo
     }
+
+
 }
